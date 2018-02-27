@@ -18,5 +18,15 @@
   }
   echo "<p>Connected to server</p>";
    ?>
-  <a href="Login.php">Login</a>
+   <form>
+     <label for="search">Search:</label>
+     <input name="search" type="text">
+     <label for="type">Type:</label>
+     <select name="type">
+       <option value="user">User</option>
+       <option value="year">Year</option>
+       <option value="keyword">Keyword</option>
+     </select>
+   </form>
+  <a href="login.php">Login</a>
 </body>
