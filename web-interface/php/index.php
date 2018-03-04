@@ -19,6 +19,10 @@
   echo "<p>Connected to server</p>";
    ?>
    <form>
+     <input type="hidden" name="servername" value="<?php echo $servername; ?>">
+     <input type="hidden" name="username" value="<?php echo $username; ?>">
+     <input type="hidden" name="password" value="<?php echo $password; ?>">
+     <input type="hidden" name="dbname" value="<?php echo $dbname; ?>">
      <label for="search">Search:</label>
      <input name="search" type="text">
      <label for="type">Type:</label>
