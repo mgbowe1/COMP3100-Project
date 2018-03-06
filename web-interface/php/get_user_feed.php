@@ -23,7 +23,7 @@ $result = $conn->query($sql);
   <?php if($conn_failure) {
     echo "could not connect to database";
   }
-  else if($result->num_rows = 0) {
+  else if($result->num_rows == 0) {
     echo "<p>Your search returned 0 results, check if the user exists.</p>";
   }
   else {

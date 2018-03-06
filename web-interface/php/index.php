@@ -8,7 +8,7 @@
   $servername = "localhost";
   $username = "username";
   $password = "password";
-  $dbname = "comp3100"; //Change this to the name of your loacl database
+  $dbname = "comp3100"; //Change this to the name of your local database
    ?>
   <h1>Welcome to Twitter</h1>
   <?php
