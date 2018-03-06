@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <?php
-$servername = $_POST("servername");
-$username = $_POST("username");
-$password = $_POST("password");
-$dbname = $_POST("dbname");
+$servername = $_POST["servername"];
+$username = $_POST["username"];
+$password = $_POST["password"];
+$dbname = $_POST["dbname"];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if($conn->connect_error) {
@@ -23,7 +23,7 @@ $result = $conn->query($sql);
   <?php if($conn_failure) {
     echo "could not connect to database";
   }
-  else if($result->num_rows == 0) {
+  else if(!$result) {
     echo "<p>Your search returned 0 results, check if the user exists.</p>";
   }
   else {
