@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <?php
 include("db_header.php");
@@ -9,8 +10,8 @@ if($conn->connect_error) {
 else {
   $conn_failure = false;
 }
-$tu_name = $_GET["search"];
-$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username =". $tu_name . ")";
+$keyword = $_GET["search"];
+$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND body CONTAINS '" . $keyword . "' GROUP BY user.location ORDER BY num_posts DESC";
 $result = $conn->query($sql);
 ?>
 <head>
@@ -18,21 +19,21 @@ $result = $conn->query($sql);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <title><?php echo $_POST["search"]; ?> feed</title>
+  <title><?php echo $_POST["search"]; ?> results</title>
 </head>
 <body>
+  <div class="container">
   <?php if($conn_failure) {
     echo "could not connect to database";
   }
   else if(!$result) {
-    echo "<p>Your search returned 0 results, check if the user exists.</p>";
+    echo "<p>Your search returned 0 results.</p>";
   }
   else {
     while($row = $result->fetch_assoc()) {
-      echo "<div class=\"post\"><h3>" . $tu_name . "</h3>";
-      echo "<p class=\"tline\">posted at<span class=\"time\">" . $row["post_time"] . "</span></p>";
-      echo "<p class=\"postcontent\">" . $row["body"] . "</p></div>";
+      echo "<div class=\"aggregation\"><span>" . $row["location"] . "</span> <span>" . $row["num_posts"];
     }
   }
 ?>
+  </div>
 </body>
