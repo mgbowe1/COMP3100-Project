@@ -1,8 +1,7 @@
 <?php
 session_start();
 function Redirect($url, $statuscode = 200) {
-  header("Location: " . $url, true, $statuscode);
-  exit();
+  header("Location: " . $url);
 }
 include("db_header.php");
 
@@ -13,16 +12,18 @@ if($conn->connect_error) {
 
 $uname = $_POST["username"];
 $upass = $_POST["password"];
-$sql = "SELECT uid FROM user WHERE username = " . $uname . "AND password = " . $upass . ";";
+$redirect_page = $_POST["redirect_page"];
+$sql = "SELECT uid FROM user WHERE username = '" . $uname . "' AND password = '" . $upass . "'";
+//echo $sql;
 $result = $conn->query($sql);
 if (!$result) {
-  echo $result;
+  // echo $result . "login failed";
   // Redirect to login error page
   Redirect("login_failure.php");
 }
 else {
-  echo $result;
   $_SESSION["logged_in"] = true;
+  $_SESSION["username"] = $uname;
   // Rediect to correct page
-  Redirect($redirect_page);
+  Redirect("http://" . $servername . "/comp3100/" . $redirect_page);
 }?>

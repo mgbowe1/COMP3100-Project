@@ -9,10 +9,11 @@ if(!isset($_SESSION["logged_in"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylsheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css">
   <title>Twitter - HOME</title>
 </head>
 <body>
+  <div class="container">
   <?php
   include("banner.php");
   $conn = new mysqli($servername, $username, $password);
@@ -30,4 +31,5 @@ if(!isset($_SESSION["logged_in"])) {
      <input name="search" type="text">
      <input type="submit" value="Keyword Search">
    </form>
+ </div>
 </body>

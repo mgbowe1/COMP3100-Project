@@ -17,7 +17,7 @@
         echo "<input type=\"submit\" value=\"Log In\"></form>";
       }
       else {
-        echo "<p><span>" . $_SESSION["username"] . "</span> | <a href=\"logout.php>Log out</a></p>";
+        echo "<p><span>" . $_SESSION["username"] . "</span> | <a href=\"logout.php\">Log out</a></p>";
       }
       ?>
     </div>

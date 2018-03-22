@@ -10,7 +10,7 @@ else {
   $conn_failure = false;
 }
 $tu_name = $_GET["search"];
-$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username =". $tu_name . ")";
+$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "')";
 $result = $conn->query($sql);
 ?>
 <head>
@@ -18,10 +18,14 @@ $result = $conn->query($sql);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
   <title><?php echo $_POST["search"]; ?> feed</title>
 </head>
 <body>
-  <?php if($conn_failure) {
+  <div class="container">
+  <?php
+  include("banner.php");
+  if($conn_failure) {
     echo "could not connect to database";
   }
   else if(!$result) {
@@ -30,9 +34,10 @@ $result = $conn->query($sql);
   else {
     while($row = $result->fetch_assoc()) {
       echo "<div class=\"post\"><h3>" . $tu_name . "</h3>";
-      echo "<p class=\"tline\">posted at<span class=\"time\">" . $row["post_time"] . "</span></p>";
+      echo "<p class=\"tline\">posted at<span class=\"time\"> " . $row["post_time"] . "</span></p>";
       echo "<p class=\"postcontent\">" . $row["body"] . "</p></div>";
     }
   }
 ?>
+</div>
 </body>
