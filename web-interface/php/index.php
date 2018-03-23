@@ -31,5 +31,13 @@ if(!isset($_SESSION["logged_in"])) {
      <input name="search" type="text">
      <input type="submit" value="Keyword Search">
    </form>
- </div>
+ <!-- Conditionally show forms for queries requiring login -->
+ <?php if($_SESSION["logged_in"] == true): ?>
+   <form method="post" action="post_twit.php">
+     <label for="content">Twit: </label><br />
+     <input type="textarea" name="content"><br />
+     <input type="submit" value="Post Twit">
+   </form>
+ <?php endif; ?>
+</div>
 </body>

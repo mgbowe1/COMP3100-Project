@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <?php
 include("db_header.php");
@@ -10,7 +11,7 @@ else {
   $conn_failure = false;
 }
 $tu_name = $_GET["search"];
-$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "')";
+$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "' ORDER BY post_time)";
 $result = $conn->query($sql);
 ?>
 <head>
@@ -19,7 +20,7 @@ $result = $conn->query($sql);
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
-  <title><?php echo $_POST["search"]; ?> feed</title>
+  <title><?php echo $_GET["search"]; ?> feed</title>
 </head>
 <body>
   <div class="container">
@@ -28,16 +29,28 @@ $result = $conn->query($sql);
   if($conn_failure) {
     echo "could not connect to database";
   }
-  else if(!$result) {
-    echo "<p>Your search returned 0 results, check if the user exists.</p>";
+  else if($result->num_rows == 0) {
+    $sql2 = "SELECT uid FROM user WHERE username = '" . $tu_name . "'";
+    $result2 = $conn->query($sql2);
+    if($result2->num_rows < 1) {
+      echo "<div class=\"row\"><p>There is nobody with username, " . $tu_name . ", on Twitter</p></div>";
+    }
+    else {
+        echo "<div class=\"row\"><p>" . $tu_name . " has not made any posts </p></div>";
+    }
   }
   else {
     while($row = $result->fetch_assoc()) {
-      echo "<div class=\"post\"><h3>" . $tu_name . "</h3>";
-      echo "<p class=\"tline\">posted at<span class=\"time\"> " . $row["post_time"] . "</span></p>";
-      echo "<p class=\"postcontent\">" . $row["body"] . "</p></div>";
+      echo "<div class=\"post row\"><div class=\"col-md\"><h3>" . $tu_name . "</h3>";
+      echo "<p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p>";
+      echo "<p class=\"postcontent\">" . $row["body"] . "</p></div></div>";
     }
   }
 ?>
 </div>
+<script type="text/javascript">
+function update_time() {
+  document.querySelector(".time");
+}
+</script>
 </body>

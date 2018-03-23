@@ -5,3 +5,20 @@ body {
 .page_header {
   color: #333333;
 }
+.post {
+  background: #666666;
+  color:#EEEEFF;
+}
+.tline {
+  font-size: 0.75em;
+}
+.time {
+  font-style:italic;
+}
+.aggregation .col-sm {
+  background: #666666;
+}
+.aggregation:even .col-sm {
+  background: #333333;
+  color:#666666;
+}

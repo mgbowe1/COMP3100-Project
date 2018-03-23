@@ -11,7 +11,7 @@ else {
   $conn_failure = false;
 }
 $keyword = $_GET["search"];
-$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND body CONTAINS '" . $keyword . "' GROUP BY user.location ORDER BY num_posts DESC";
+$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND body LIKE '%" . $keyword . "%' GROUP BY user.location ORDER BY num_posts DESC";
 $result = $conn->query($sql);
 ?>
 <head>
@@ -19,11 +19,14 @@ $result = $conn->query($sql);
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
   <title><?php echo $_POST["search"]; ?> results</title>
 </head>
 <body>
   <div class="container">
-  <?php if($conn_failure) {
+  <?php
+  include("banner.php");
+  if($conn_failure) {
     echo "could not connect to database";
   }
   else if(!$result) {
@@ -31,7 +34,7 @@ $result = $conn->query($sql);
   }
   else {
     while($row = $result->fetch_assoc()) {
-      echo "<div class=\"aggregation\"><span>" . $row["location"] . "</span> <span>" . $row["num_posts"];
+      echo "<div class=\"aggregation row\"><div class=\"col-sm\">" . $row["location"] . "</div> <div class=\"col-sm\"> " . $row["num_posts"] . "</div></div>";
     }
   }
 ?>

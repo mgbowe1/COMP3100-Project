@@ -24,6 +24,8 @@ if (!$result) {
 else {
   $_SESSION["logged_in"] = true;
   $_SESSION["username"] = $uname;
+  $row = $result->fetch_assoc();
+  $_SESSION["uid"] = $row["uid"];
   // Rediect to correct page
   Redirect("http://" . $servername . "/comp3100/" . $redirect_page);
 }?>
