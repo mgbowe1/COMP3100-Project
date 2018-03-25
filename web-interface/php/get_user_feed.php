@@ -10,8 +10,9 @@ if($conn->connect_error) {
 else {
   $conn_failure = false;
 }
+$_SESSION["last_page"] = "get_user_feed.php?search=" . $_GET["search"];
 $tu_name = $_GET["search"];
-$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "' ORDER BY post_time)";
+$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
 $result = $conn->query($sql);
 ?>
 <head>

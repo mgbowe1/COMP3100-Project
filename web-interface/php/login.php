@@ -12,7 +12,7 @@ if($conn->connect_error) {
 
 $uname = $_POST["username"];
 $upass = $_POST["password"];
-$redirect_page = $_POST["redirect_page"];
+$redirect_page = $_SESSION["last_page"];
 $sql = "SELECT uid FROM user WHERE username = '" . $uname . "' AND password = '" . $upass . "'";
 //echo $sql;
 $result = $conn->query($sql);

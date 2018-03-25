@@ -12,7 +12,6 @@
     <div class="col-sm">
       <?php if($_SESSION["logged_in"] == false): ?>
         <form method="post" action="login.php">
-          <input type="hidden" name="redirect_page" value="index.php">
           <label for="username">Username:</label>
           <input type="text" name="username"><br />
           <label for="password">Password:</label>
