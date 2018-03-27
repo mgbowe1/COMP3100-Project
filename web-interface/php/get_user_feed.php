@@ -12,7 +12,7 @@ else {
 }
 $_SESSION["last_page"] = "get_user_feed.php?search=" . $_GET["search"];
 $tu_name = $_GET["search"];
-$sql = "SELECT body, post_time FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
+$sql = "SELECT body, post_time, tid FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
 $result = $conn->query($sql);
 ?>
 <head>
@@ -42,9 +42,33 @@ $result = $conn->query($sql);
   }
   else {
     while($row = $result->fetch_assoc()) {
-      echo "<div class=\"post row\"><div class=\"col-md\"><h3>" . $tu_name . "</h3>";
-      echo "<p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p>";
-      echo "<p class=\"postcontent\">" . $row["body"] . "</p></div></div>";
+      $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
+      $result2 = $conn->query($sql2);
+      echo "<div class=\"post row\"><div class=\"col-10 offest-1 post-inside\"><h3>" . $tu_name . "</h3></div>";
+      echo "<div class=\"col-10 offest-1 post-inside\"><p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p></div>";
+      echo "<div class=\"col-10 offest-1 post-inside\"><p class=\"postcontent\">" . $row["body"] . "</p></div>";
+      if($result2->num_rows >= 1) {
+        while($row2 = $result2->fetch_assoc()) {
+          echo "<div class=\"col-12 comment post-inside\"><div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><h4>" . $row2["name"] . "</h4></div></div>";
+          echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"comment_content\">" . $row2["body"] . "</p></div></div>";
+          echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"tline\">at <span class=\"time\" data-time=\"" . $row2["time"] . "\"> " . $row2["time"] . "</span></p></div></div>";
+          if($_SESSION["logged_in"] && ($_SESSION["uid"] == $row2["uid"])) {
+            echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><a href=\"http://" . $servername . $serverroot . "delete_comment?cid= " . $row2["cid"] . "\">delete</a></div></div>";
+          }
+          echo "</div>"
+        }
+      }
+      if($_SESSION["logged_in"]) {
+        echo "<div class=\"col-12 comment post-inside\">";
+        echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\">";
+        echo "<form action=\"post_comment.php\" method=\"post\">";
+        echo "<input type=\"hidden\" name=\"tid\" value=\"" . $row["tid"] . "\">";
+        echo "<label for=\"comment_content\">";
+        echo "<input name=\"comment_content\" type=\"text\">";
+        echo "<input type=\"submit\" value=\"Comment\"></form>";
+        echo "</div></div></div>";
+      }
+      echo "</div>";
     }
   }
 ?>

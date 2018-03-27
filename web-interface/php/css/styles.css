@@ -6,11 +6,14 @@ body {
   color: #333333;
 }
 .post {
+  margin-bottom:10px;
+}
+.post .post-inside{
   background: #666666;
   color:#EEEEFF;
 }
 .tline {
-  font-size: 0.75em;
+  font-size: 0.65em;
 }
 .time {
   font-style:italic;
@@ -21,4 +24,14 @@ body {
 .aggregation:even .col-sm {
   background: #333333;
   color:#666666;
+}
+.comment .comment-inside {
+  background: #CCCCCC;
+  color: #333333;
+}
+.comment .tline {
+  color:#55555;
+}
+.comment_content {
+  font-size:0.9em;
 }

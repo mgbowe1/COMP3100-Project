@@ -27,5 +27,5 @@ else {
   $row = $result->fetch_assoc();
   $_SESSION["uid"] = $row["uid"];
   // Rediect to correct page
-  Redirect("http://" . $servername . "/comp3100/" . $redirect_page);
+  Redirect("http://" . $servername . $serverroot . $redirect_page);
 }?>
