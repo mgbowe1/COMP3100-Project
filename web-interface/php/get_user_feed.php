@@ -42,7 +42,7 @@ $result = $conn->query($sql);
   }
   else {
     while($row = $result->fetch_assoc()) {
-      $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
+      $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
       $result2 = $conn->query($sql2);
       echo "<div class=\"post row\"><div class=\"col-10 offest-1 post-inside\"><h3>" . $tu_name . "</h3></div>";
       echo "<div class=\"col-10 offest-1 post-inside\"><p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p></div>";
