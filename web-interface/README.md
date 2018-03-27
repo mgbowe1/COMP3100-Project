@@ -11,4 +11,4 @@ The query requirements are as follows:
 7. After log in, user posts a new twit - Implemented by post twit feature. Query located in post_twit.php
 8. After log in, user follows/unfollows another user
 9. After log in, user adds comment to a post - UI in get_user_feed.php, query in post_comment.php
-10. After log in, user deletes a particular comment to a post he/she has created
+10. After log in, user deletes a particular comment to a post he/she has created - UI in get_user_feed.php, query in delete_comment.php

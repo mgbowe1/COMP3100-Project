@@ -44,9 +44,9 @@ $result = $conn->query($sql);
     while($row = $result->fetch_assoc()) {
       $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
       $result2 = $conn->query($sql2);
-      echo "<div class=\"post row\"><div class=\"col-10 offest-1 post-inside\"><h3>" . $tu_name . "</h3></div>";
-      echo "<div class=\"col-10 offest-1 post-inside\"><p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p></div>";
-      echo "<div class=\"col-10 offest-1 post-inside\"><p class=\"postcontent\">" . $row["body"] . "</p></div>";
+      echo "<div class=\"post row\"><div class=\"col post-inside\"></div><div class=\"col-10 post-inside\"><h3>" . $tu_name . "</h3></div><div class=\"col post-inside\"></div>";
+      echo "<div class=\"col post-inside\"></div><div class=\"col-10 offest post-inside\"><p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p></div><div class=\"col post-inside\"></div>";
+      echo "<div class=\"col post-inside\"></div><div class=\"col-10 offest post-inside\"><p class=\"postcontent\">" . $row["body"] . "</p></div><div class=\"col post-inside\"></div>";
       if($result2->num_rows >= 1) {
         while($row2 = $result2->fetch_assoc()) {
           echo "<div class=\"col-12 comment post-inside\"><div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><h4>" . $row2["name"] . "</h4></div></div>";
