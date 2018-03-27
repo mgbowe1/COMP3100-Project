@@ -55,7 +55,7 @@ $result = $conn->query($sql);
           if($_SESSION["logged_in"] && ($_SESSION["uid"] == $row2["uid"])) {
             echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><a href=\"http://" . $servername . $serverroot . "delete_comment?cid= " . $row2["cid"] . "\">delete</a></div></div>";
           }
-          echo "</div>"
+          echo "</div>";
         }
       }
       if($_SESSION["logged_in"]) {
