@@ -53,7 +53,7 @@ $result = $conn->query($sql);
           echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"comment_content\">" . $row2["body"] . "</p></div></div>";
           echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"tline\">at <span class=\"time\" data-time=\"" . $row2["time"] . "\"> " . $row2["time"] . "</span></p></div></div>";
           if($_SESSION["logged_in"] && ($_SESSION["uid"] == $row2["uid"])) {
-            echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><a href=\"http://" . $servername . $serverroot . "delete_comment?cid= " . $row2["cid"] . "\">delete</a></div></div>";
+            echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><a href=\"http://" . $servername . $serverroot . "delete_comment.php?cid=" . $row2["cid"] . "\">delete</a></div></div>";
           }
           echo "</div>";
         }
