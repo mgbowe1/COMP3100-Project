@@ -12,11 +12,14 @@ if($conn->connect_error) {
 
 $uname = $_POST["username"];
 $upass = $_POST["password"];
+if ($upass == "") {
+  Redirect("https://" . $servername . $serverroot);
+}
 $redirect_page = $_SESSION["last_page"];
 $sql = "SELECT uid FROM user WHERE username = '" . $uname . "' AND password = '" . $upass . "'";
 //echo $sql;
 $result = $conn->query($sql);
-if (!$result) {
+if ($result->num_rows < 1) {
   // echo $result . "login failed";
   // Redirect to login error page
   Redirect("login_failure.php");

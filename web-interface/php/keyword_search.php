@@ -12,7 +12,7 @@ else {
 }
 $keyword = $_GET["search"];
 $_SESSION["last_page"] = "keyword_search?search=" . $keyword;
-$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND body LIKE '%" . $keyword . "%' GROUP BY user.location ORDER BY num_posts DESC";
+$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND body LIKE ' " . $keyword . "%' GROUP BY user.location ORDER BY num_posts DESC";
 $result = $conn->query($sql);
 ?>
 <head>
@@ -30,7 +30,7 @@ $result = $conn->query($sql);
   if($conn_failure) {
     echo "could not connect to database";
   }
-  else if(!$result) {
+  else if($result->num_rows < 1) {
     echo "<p>Your search returned 0 results.</p>";
   }
   else {

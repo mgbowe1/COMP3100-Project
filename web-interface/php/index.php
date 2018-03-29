@@ -39,6 +39,34 @@ if(!isset($_SESSION["logged_in"])) {
      <input type="textarea" name="content"><br />
      <input type="submit" value="Post Twit">
    </form>
+   <form method="post" action="follow.php">
+     <label for="follow">Follow</label>
+     <select name="follow">
+       <?php
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        $sql = "SELECT * from user where uid NOT IN (SELECT following_id FROM follow WHERE follower_id = " . $_SESSION["uid"] . ")";
+        $result = $conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+          echo "<option value=\"" . $row["uid"] . "\">" . $row["username"] . "</option>";
+        }
+      ?>
+    </select>
+    <input type="submit" value="Follow">
+   </form>
+   <form method="post" action="unfollow.php">
+     <label for="unfollow">unfollow</label>
+     <select name="unfollow">
+       <?php
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        $sql = "SELECT * from user where uid IN (SELECT following_id FROM follow WHERE follower_id = " . $_SESSION["uid"] . ")";
+        $result = $conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+          echo "<option value=\"" . $row["uid"] . "\">" . $row["username"] . "</option>";
+        }
+      ?>
+    </select>
+    <input type="submit" value="Unfollow">
+   </form>
  <?php endif; ?>
 </div>
 </body>
