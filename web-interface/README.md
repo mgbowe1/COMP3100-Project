@@ -9,6 +9,6 @@ The query requirements are as follows:
 5. User input a year, find the person who twits the most in that year
 6. After log in, find all the senders of messages to the user
 7. After log in, user posts a new twit - Implemented by post twit feature. Query located in post_twit.php
-8. After log in, user follows/unfollows another user
+8. After log in, user follows/unfollows another user - UI in php/index.php, queries split between php/follow.php and php/unfollow.php
 9. After log in, user adds comment to a post - UI in get_user_feed.php, query in post_comment.php
 10. After log in, user deletes a particular comment to a post he/she has created - UI in get_user_feed.php, query in delete_comment.php
