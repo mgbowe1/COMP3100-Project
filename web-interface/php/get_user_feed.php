@@ -1,6 +1,8 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
 <?php
+// include("db_header.php") is just an easy way to allow local settings
+// configuration quickly by changing 1 file to update the whole application
 include("db_header.php");
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -12,9 +14,10 @@ else {
 }
 $_SESSION["last_page"] = "get_user_feed.php?search=" . $_GET["search"];
 $tu_name = $_GET["search"];
-$sql = "SELECT body, post_time, tid FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
+$sql = "SELECT body, post_time, tid, uid FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
 $result = $conn->query($sql);
 ?>
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -52,7 +55,7 @@ $result = $conn->query($sql);
           echo "<div class=\"col-12 comment post-inside\"><div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><h4>" . $row2["name"] . "</h4></div></div>";
           echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"comment_content\">" . $row2["body"] . "</p></div></div>";
           echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"tline\">at <span class=\"time\" data-time=\"" . $row2["time"] . "\"> " . $row2["time"] . "</span></p></div></div>";
-          if($_SESSION["logged_in"] && ($_SESSION["uid"] == $row2["uid"])) {
+          if($_SESSION["logged_in"] && ($_SESSION["uid"] == $row["uid"])) {
             echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><a href=\"http://" . $servername . $serverroot . "delete_comment.php?cid=" . $row2["cid"] . "\">delete</a></div></div>";
           }
           echo "</div>";
@@ -73,9 +76,5 @@ $result = $conn->query($sql);
   }
 ?>
 </div>
-<script type="text/javascript">
-function update_time() {
-  document.querySelector(".time");
-}
-</script>
 </body>
+</html>

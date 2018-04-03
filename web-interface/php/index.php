@@ -4,6 +4,8 @@ if(!isset($_SESSION["logged_in"])) {
   $_SESSION["last_page"] = "index.php";
 }?>
 <!DOCTYPE html>
+<!-- include("db_header.php") is just an easy way to allow local settings
+    configuration quickly by changing 1 file to update the whole application -->
 <?php include("db_header.php"); ?>
 <head>
   <meta charset="utf-8">

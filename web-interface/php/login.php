@@ -3,6 +3,8 @@ session_start();
 function Redirect($url, $statuscode = 200) {
   header("Location: " . $url);
 }
+// include("db_header.php") is just an easy way to allow local settings
+// configuration quickly by changing 1 file to update the whole application
 include("db_header.php");
 
 $conn = $conn = new mysqli($servername, $username, $password, $dbname);
@@ -20,11 +22,11 @@ $sql = "SELECT uid FROM user WHERE username = '" . $uname . "' AND password = '"
 //echo $sql;
 $result = $conn->query($sql);
 if ($result->num_rows < 1) {
-  // echo $result . "login failed";
   // Redirect to login error page
   Redirect("login_failure.php");
 }
 else {
+  // Login successfull, update SESSION variables and go back to last page
   $_SESSION["logged_in"] = true;
   $_SESSION["username"] = $uname;
   $row = $result->fetch_assoc();
