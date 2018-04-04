@@ -31,8 +31,8 @@ $result = $conn->query($sql);
   if($conn_failure) {
     echo "could not connect to database";
   }
-  if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
+  if ($result->num_rows() > 0) {
+    while ($row = $result->fetch_assoc()) {
       echo "<div class=\"post row\"><div class=\"col-12 post-inside\"><h2> Most Active User of " . $row["year"] . "</h2></div>";
       echo "<div class=\"col-12 post-inside\"><h3>" . $row["username"] . " with " . $row["number_of_tweets"] . " post(s). </h3></div><div class=\"col post-inside\"></div>";
       echo "</div>";

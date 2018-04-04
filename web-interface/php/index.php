@@ -107,27 +107,6 @@ if(!isset($_SESSION["logged_in"])) {
     </select>
     <input type="submit" value="Unfollow">
    </form>
-
-<form method="post" action="top_user_year.php">
-  <label for="topofyear">Select Year</label>
-  <select name="topofyear">
-   <?php
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = "SELECT year(post_time) as year FROM TWITTS t1 GROUP BY year(t1.post_time)";
-    $result = mysqli_query($conn, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-      while ($row = mysqli_fetch_assoc($result)) {
-        echo "<option value=\"" . $row["year"] . "\">" . $row["year"] . "</option>";
-      }
-    } else {
-      echo "0 results";
-    }
-    ?>
-    </select>
-    <input type="submit" value="Top User">
-  </form>
-
   <?php
     $conn = new mysqli($servername, $username, $password, $dbname);
     $sql = "SELECT u2.username, COUNT(*) as number_of_messages FROM user u2, message m2 WHERE u2.uid = m2.sender_id and m2.message_id in (SELECT m1.message_id FROM USER u1, MESSAGE m1 WHERE u1.uid = m1.receiver_id AND u1.uid = " . $_SESSION["uid"] . ") ORDER BY 'send_time' DESC";
@@ -135,7 +114,7 @@ if(!isset($_SESSION["logged_in"])) {
 
     if (mysqli_num_rows($result) > 0) {
       echo $row["number_of_messages"] . " Message(s) from: <br>";
-      while ($row = mysqli_fetch_assoc($result)) {
+      while ($row = $result->fetch_assoc()) {
         echo $row["username"] . "<br>";
       }
     } else {
