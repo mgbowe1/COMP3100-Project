@@ -7,7 +7,6 @@
       </a>
     </div>
     <div class="col-sm">
-      <a href="#">Messages</a>
     </div>
     <div class="col-sm">
       <?php if($_SESSION["logged_in"] == false): ?>
