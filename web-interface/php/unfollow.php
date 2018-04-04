@@ -8,7 +8,7 @@ if($conn->connect_error) {
   die("Failed to connect to the database in follow.php");
 }
 
-$sql = "DELETE FROM follow WHERE follower = '" . $_SESSION["uid"] . "' AND following = '" . $_POST["unfollow"] . "'";
+$sql = "DELETE FROM follow WHERE follower_id = '" . $_SESSION["uid"] . "' AND following_id = '" . $_POST["unfollow"] . "'";
 $result = $conn->query($sql);
 header("Location: http://" . $servername . $serverroot . $_SESSION["last_page"]);
 ?>
