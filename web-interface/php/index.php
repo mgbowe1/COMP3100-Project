@@ -23,10 +23,10 @@ if(!isset($_SESSION["logged_in"])) {
   }
    ?>
    <!-- POST WITH MOST LIKES -->
-   <?php 
+   <?php
     $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = "SELECT body, t1.uid as uid, u1.username as username, t1.post_time as post_time, COUNT(t1.uid) as likes FROM TWITTS t1, THUMB l1, USER u1 WHERE t1.uid = u1.uid AND t1.tid = l1.tid GROUP BY t1.tid ORDER BY COUNT(t1.tid) DESC, t1.post_time ASC LIMIT 1";
-    $result = mysqli_query($conn, $sql);
+    $sql = "SELECT body, t1.uid as uid, u1.username as username, t1.post_time as post_time, COUNT(t1.uid) as likes FROM twitts t1, thumb l1, user u1 WHERE t1.uid = u1.uid AND t1.tid = l1.tid GROUP BY t1.tid ORDER BY COUNT(t1.tid) DESC, t1.post_time ASC LIMIT 1";
+    $result = $conn->query($sql);
 
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
@@ -41,11 +41,11 @@ if(!isset($_SESSION["logged_in"])) {
     }
     ?>
    <!-- USER WITH MOST FOLLOWERS -->
-    <?php 
+    <?php
     $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = "SELECT u1.username, COUNT(u1.uid) as followers FROM USER u1, FOLLOW f1 WHERE u1.uid = f1.following_id GROUP BY u1.uid ORDER BY COUNT(u1.uid) DESC, follow_time ASC LIMIT 1";
+    $sql = "SELECT u1.username, COUNT(u1.uid) as followers FROM user u1, follow f1 WHERE u1.uid = f1.following_id GROUP BY u1.uid ORDER BY COUNT(u1.uid) DESC, follow_time ASC LIMIT 1";
     $result = mysqli_query($conn, $sql);
-    
+
     if (mysqli_num_rows($result) > 0) {
       while ($row = mysqli_fetch_assoc($result)) {
         echo "<div class=\"post row\"><div class=\"col-12 post-inside\"><h2> Most Popular User - (" . $row["followers"] . ") follower(s)</h2></div>";
@@ -55,7 +55,7 @@ if(!isset($_SESSION["logged_in"])) {
     } else {
       echo "No user with followers found.";
     }
-    ?> 
+    ?>
    <form method="get" action="get_user_feed.php">
      <label for="search">User:</label>
      <input name="search" type="text">
@@ -71,7 +71,7 @@ if(!isset($_SESSION["logged_in"])) {
      <input name="year" type="text" pattern="[0-9]{4,4}">
      <input type="submit" value="Year Search">
    </form>
-   
+
  <!-- Conditionally show forms for queries requiring login -->
  <?php if($_SESSION["logged_in"] == true): ?>
    <form method="post" action="post_twit.php">
@@ -107,11 +107,11 @@ if(!isset($_SESSION["logged_in"])) {
     </select>
     <input type="submit" value="Unfollow">
    </form>
-   
+
 <form method="post" action="top_user_year.php">
   <label for="topofyear">Select Year</label>
   <select name="topofyear">
-   <?php 
+   <?php
     $conn = new mysqli($servername, $username, $password, $dbname);
     $sql = "SELECT year(post_time) as year FROM TWITTS t1 GROUP BY year(t1.post_time)";
     $result = mysqli_query($conn, $sql);
@@ -128,11 +128,11 @@ if(!isset($_SESSION["logged_in"])) {
     <input type="submit" value="Top User">
   </form>
 
-  <?php 
+  <?php
     $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = "SELECT u2.username, COUNT(*) as number_of_messages FROM USER u2, MESSAGE m2 WHERE u2.uid = m2.sender_id and m2.message_id in (SELECT m1.message_id FROM USER u1, MESSAGE m1 WHERE u1.uid = m1.receiver_id AND u1.uid = " . $_SESSION["uid"] . ") ORDER BY 'send_time' DESC";
+    $sql = "SELECT u2.username, COUNT(*) as number_of_messages FROM user u2, message m2 WHERE u2.uid = m2.sender_id and m2.message_id in (SELECT m1.message_id FROM USER u1, MESSAGE m1 WHERE u1.uid = m1.receiver_id AND u1.uid = " . $_SESSION["uid"] . ") ORDER BY 'send_time' DESC";
     $result = mysqli_query($conn, $sql);
-    
+
     if (mysqli_num_rows($result) > 0) {
       echo $row["number_of_messages"] . " Message(s) from: <br>";
       while ($row = mysqli_fetch_assoc($result)) {
