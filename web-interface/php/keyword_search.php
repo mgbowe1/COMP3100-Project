@@ -14,7 +14,8 @@ else {
 }
 $keyword = $_GET["search"];
 $_SESSION["last_page"] = "keyword_search?search=" . $keyword;
-$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND body LIKE ' " . $keyword . "%' GROUP BY user.location ORDER BY num_posts DESC";
+$like_clause = "(body LIKE '% " . $keyword . "' OR body LIKE '% " . $keyword . ".%' OR body LIKE '% " . $keyword . "!%' OR body LIKE '% " . $keyword . ",%' OR body LIKE '% " . $keyword . "?%' OR body LIKE '% " . $keyword . " %')";
+$sql = "SELECT COUNT(*) AS num_posts, user.location AS location FROM twitts, user WHERE twitts.uid = user.uid AND " . $like_clause . " GROUP BY user.location ORDER BY num_posts DESC";
 $result = $conn->query($sql);
 ?>
 <head>
