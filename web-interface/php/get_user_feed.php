@@ -1,5 +1,7 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
+
+<!-- 4) User input a person’s twitter name, find all the posts made by that person - Sorted by post_time -->
 <?php
 // include("db_header.php") is just an easy way to allow local settings
 // configuration quickly by changing 1 file to update the whole application
@@ -14,9 +16,12 @@ else {
 }
 $_SESSION["last_page"] = "get_user_feed.php?search=" . $_GET["search"];
 $tu_name = $_GET["search"];
+
 $sql = "SELECT body, post_time, tid, uid FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
 $result = $conn->query($sql);
 ?>
+
+<!-- Display Results -->
 <html>
 <head>
   <meta charset="utf-8">
@@ -45,6 +50,7 @@ $result = $conn->query($sql);
   }
   else {
     while($row = $result->fetch_assoc()) {
+      // SQL2 - fetch comment data to display after the original post.
       $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
       $result2 = $conn->query($sql2);
       echo "<div class=\"post row\"><div class=\"col post-inside\"></div><div class=\"col-10 post-inside\"><h3>" . $tu_name . "</h3></div><div class=\"col post-inside\"></div>";
@@ -55,6 +61,8 @@ $result = $conn->query($sql);
           echo "<div class=\"col-12 comment post-inside\"><div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><h4>" . $row2["name"] . "</h4></div></div>";
           echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"comment_content\">" . $row2["body"] . "</p></div></div>";
           echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><p class=\"tline\">at <span class=\"time\" data-time=\"" . $row2["time"] . "\"> " . $row2["time"] . "</span></p></div></div>";
+
+          // 10) After log in, user deletes a particular comment to a post he/she has created
           if($_SESSION["logged_in"] && ($_SESSION["uid"] == $row["uid"])) {
             echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\"><a href=\"http://" . $servername . $serverroot . "delete_comment.php?cid=" . $row2["cid"] . "\">delete</a></div></div>";
           }
@@ -62,6 +70,8 @@ $result = $conn->query($sql);
         }
       }
       if($_SESSION["logged_in"]) {
+        
+        // 9) After log in, user adds comment to a post
         echo "<div class=\"col-12 comment post-inside\">";
         echo "<div class=\"row\"><div class=\"col-8 offset-2 comment-inside\">";
         echo "<form action=\"post_comment.php\" method=\"post\">";

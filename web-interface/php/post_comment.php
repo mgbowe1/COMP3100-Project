@@ -3,6 +3,8 @@
 // configuration quickly by changing 1 file to update the whole application
 include("db_header.php");
 
+// 9) After log in, user adds comment to a post
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if($conn->connect_error) {

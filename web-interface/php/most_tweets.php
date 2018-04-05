@@ -1,6 +1,11 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<?php include("db_header.php");
+
+<!-- 5) User input a year, find the person who twits the most in that year - Sorted by Count, and then by Date to get the first user to achieve that many posts in the specified year -->
+<?php 
+// include("db_header.php") is just an easy way to allow local settings
+// configuration quickly by changing 1 file to update the whole application
+include("db_header.php");
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if($conn->connect_error) {
@@ -12,9 +17,11 @@ else {
 $_SESSION["last_page"] = "most_tweets.php?year=" . $_GET["year"];
 $ty_year = $_GET["year"];
 
-$sql = "SELECT u1.username, COUNT(*) as number_of_tweets, year(post_time) as year FROM USER u1, TWITTS t1 WHERE u1.uid = t1.uid AND year(post_time) = '". $ty_year . "' GROUP BY u1.uid ORDER BY COUNT(u1.uid) DESC, post_time ASC LIMIT 1";
+$sql = "SELECT u1.username, COUNT(*) as number_of_tweets, year(post_time) as year FROM user u1, twitts t1 WHERE u1.uid = t1.uid AND year(post_time) = '". $ty_year . "' GROUP BY u1.uid ORDER BY COUNT(u1.uid) DESC, post_time ASC LIMIT 1";
 $result = $conn->query($sql);
 ?>
+
+<!-- Display Result -->
 <html>
 <head>
   <meta charset="utf-8">
@@ -31,7 +38,7 @@ $result = $conn->query($sql);
   if($conn_failure) {
     echo "could not connect to database";
   }
-  if ($result->num_rows() > 0) {
+  if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
       echo "<div class=\"post row\"><div class=\"col-12 post-inside\"><h2> Most Active User of " . $row["year"] . "</h2></div>";
       echo "<div class=\"col-12 post-inside\"><h3>" . $row["username"] . " with " . $row["number_of_tweets"] . " post(s). </h3></div><div class=\"col post-inside\"></div>";
