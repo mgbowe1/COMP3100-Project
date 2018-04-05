@@ -118,19 +118,24 @@ if(!isset($_SESSION["logged_in"])) {
   <!-- 6) After log in, find all the senders of messages to the user -->
     <?php
       $conn = new mysqli($servername, $username, $password, $dbname);
-      $sql = "SELECT u2.username, COUNT(*) as number_of_messages FROM user u2, message m2 WHERE u2.uid = m2.sender_id and m2.message_id in (SELECT m1.message_id FROM USER u1, MESSAGE m1 WHERE u1.uid = m1.receiver_id AND u1.uid = " . $_SESSION["uid"] . ") ORDER BY 'send_time' DESC";
+      $sql = "SELECT u2.username as username, COUNT(*) as number_of_messages FROM user u2, message m2 WHERE u2.uid = m2.sender_id and m2.message_id in (SELECT m1.message_id FROM user u1, message m1 WHERE u1.uid = m1.receiver_id AND u1.uid = " . $_SESSION["uid"] . ") ORDER BY 'send_time' DESC";
       $result = $conn->query($sql);
 
       if ($result->num_rows > 0) {
         echo "<h4>Message(s) from: <br></h4>";
         while ($row = $result->fetch_assoc()) {
-          echo $row["username"] . "<br>";
+          if($row["number_of_messages"] == 0) {
+            echo "<p>You have 0 Messages</p>";
+          }
+          else {
+            echo "<p>(" . $row["number_of_messages"] . ") " . $row["username"] . "</p>";
+          }
         }
       } else {
-        echo "0 Messages";
+        echo "<h4>You have 0 Messages</h4>";
       }
     ?>
-
+    <a href="follows_feed.php">Posts from people I follow</a>
   <?php endif; ?>
 </div>
 </body>

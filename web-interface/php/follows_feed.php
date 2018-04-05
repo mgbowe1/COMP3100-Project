@@ -12,13 +12,10 @@ if($conn->connect_error) {
 else {
   $conn_failure = false;
 }
-// query 3
-$_SESSION["last_page"] = "get_user_feed.php?search=" . $_GET["search"];
-$tu_name = $_GET["search"];
-$sql = "SELECT body, post_time, tid, uid FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
+$_SESSION["last_page"] = "follows_feed.php";
+$sql = "SELECT body, post_time, tid, twitts.uid as uid, user.username as name FROM twitts, user WHERE twitts.uid = user.uid AND twitts.uid IN (SELECT following_id FROM follow WHERE follower_id ='". $_SESSION["uid"] . "') ORDER BY `post_time` DESC";
 $result = $conn->query($sql);
 ?>
-<!-- display for query 3 -->
 <html>
 <head>
   <meta charset="utf-8">
@@ -26,7 +23,7 @@ $result = $conn->query($sql);
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
-  <title><?php echo $_GET["search"]; ?> feed</title>
+  <title><?php echo $_SESSION["username"]; ?> feed</title>
 </head>
 <body>
   <div class="container">
@@ -36,20 +33,12 @@ $result = $conn->query($sql);
     echo "could not connect to database";
   }
   else if($result->num_rows == 0) {
-    $sql2 = "SELECT uid FROM user WHERE username = '" . $tu_name . "'";
-    $result2 = $conn->query($sql2);
-    if($result2->num_rows < 1) {
-      echo "<div class=\"row\"><p>There is nobody with username, " . $tu_name . ", on Twitter</p></div>";
-    }
-    else {
-        echo "<div class=\"row\"><p>" . $tu_name . " has not made any posts </p></div>";
-    }
   }
   else {
     while($row = $result->fetch_assoc()) {
       $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
       $result2 = $conn->query($sql2);
-      echo "<div class=\"post row\"><div class=\"col-12\"><div class=\"row\"><div class=\"col\"></div><div class=\"col-10 post-inside\"><h3>" . $tu_name . "</h3></div><div class=\"col\"></div></div></div>";
+      echo "<div class=\"post row\"><div class=\"col-12\"><div class=\"row\"><div class=\"col\"></div><div class=\"col-10 post-inside\"><h3>" . $row["name"] . "</h3></div><div class=\"col\"></div></div></div>";
       echo "<div class=\"col-12\"><div class=\"row\"><div class=\"col\"></div><div class=\"col-10 post-inside\"><p class=\"tline\">posted at<span class=\"time\" data-time=\"" . $row["post_time"] . "\"> " . $row["post_time"] . "</span></p></div><div class=\"col\"></div></div></div>";
       echo "<div class=\"col-12\"><div class=\"row\"><div class=\"col\"></div><div class=\"col-10 post-inside\"><p class=\"postcontent\">" . $row["body"] . "</p></div><div class=\"col\"></div></div></div>";
       if($result2->num_rows >= 1) {

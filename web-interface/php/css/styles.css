@@ -12,6 +12,14 @@ body {
   background: #666666;
   color:#EEEEFF;
 }
+.post .post-inside:first-of-type {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.post .post-inside:last-of-type {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
 .tline {
   font-size: 0.65em;
 }
@@ -34,4 +42,7 @@ body {
 }
 .comment_content {
   font-size:0.9em;
+}
+.comment {
+  margin-bottom: 5px;
 }
