@@ -31,32 +31,33 @@ else if($result->num_rows == 0) {
   }
 }
 else {
-  $result_str = "{\"result\":["
-  $num_rows = $result->num_rows;
-  for($i = 0; $i < $num_rows; $i++) {
+  $result_str = "{\"result\":[";
+  $tot_num_rows = $result->num_rows;
+  for($i = 0; $i < $tot_num_rows; $i++) {
     $row = $result->fetch_assoc();
     $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
     $result2 = $conn->query($sql2);
     if($i < 0) {
-      $result_str += ", "
+      $result_str += ", ";
     }
-    $result_str = $result_str . "{\"tid\":" . $row["tid"] . ", \"body\":\"" . $row["body"] . "\", \"time\":\"" . $row["time"] . "\", \"uid\":" . $row["uid"] . ", \"name\":\"" . $tu_name . "\", \"comments\":[";
+    $result_str = $result_str . "{\"tid\":" . $row["tid"] . ", \"body\":\"" . $row["body"] . "\", \"time\":\"" . $row["post_time"] . "\", \"uid\":" . $row["uid"] . ", \"name\":\"" . $tu_name . "\", \"comments\":[";
     if($result2->num_rows >= 1) {
       $num_rows2 = $result2->num_rows;
       for($i = 0; $i < $num_rows2; $i++) {
-        $row2 = $result2->fetch_assoc()
+        $row2 = $result2->fetch_assoc();
         if($i > 0) {
-          $result_str += ", ";
+          $result_str = $result_str . ", ";
         }
-        $result_str += "{\"name\":\"" . $row2["name"]  .
+        $result_str = $result_str . "{\"name\":\"" . $row2["name"]  .
           "\", \"body\":\"" . $row2["body"] .
           "\", \"time\":\"" . $row2["time"] .
           "\", \"uid\":" . $row2["uid"] .
           ", \"cid\":" . $row2["cid"] . "}";
       }
-      $result_str += "]";
+      $result_str = $result_str . "]";
     }
-    $result_str += "]}";
+    $result_str = $result_str . "]}";
   }
+  echo $result_str;
 }
 ?>
