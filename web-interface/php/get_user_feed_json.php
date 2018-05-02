@@ -12,8 +12,9 @@ if($conn->connect_error) {
 else {
   $conn_failure = false;
 }
+
 // query 3
-$tu_name = $_GET["search"];
+$tu_name = $_POST["search"];
 $sql = "SELECT body, post_time, tid, uid FROM twitts WHERE uid IN (SELECT uid FROM user WHERE username ='". $tu_name . "') ORDER BY `post_time` DESC";
 $result = $conn->query($sql);
 
