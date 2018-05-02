@@ -1,4 +1,5 @@
-<?php session_start(); 
+<?php session_start(); ?>
+<?php
 //<!-- 3) Count the number of posts that contains the keyword “flu”, display the location of the users who have made the posts as well (use “GROUP BY location”). - Grouped by location, Sorted by number of posts -->
 // include("db_header.php") is just an easy way to allow local settings
 // configuration quickly by changing 1 file to update the whole application
@@ -28,7 +29,7 @@ else if($result->num_rows < 1) {
 else {
 	$result_str = "{\"result\":[";
 	while($row = $result->fetch_assoc()) {
-		$result_str = $result_str . "{\"count\":" . $row["num_posts"] . ", \"location\":\"" . $row["location"] . "]}";
+		$result_str = $result_str . "{\"count\":" . $row["num_posts"] . ", \"location\":\"" . $row["location"] . "]}}";
 	//echo "<div class=\"aggregation row\"><div class=\"col-sm\">" . $row["location"] . "</div> <div class=\"col-sm\"> " . $row["num_posts"] . "</div></div>";
 }
 	echo $result_str;

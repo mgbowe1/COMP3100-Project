@@ -8,37 +8,35 @@ function Redirect($url, $statuscode = 200) {
 include("db_header.php");
 
 $conn = $conn = new mysqli($servername, $username, $password, $dbname);
-if($conn->connect_error) {
-  echo "Failed to connect to database, try again later";
-}
 
 $uname = $_POST["username"];
 $upass = $_POST["password"];
 
-/*****
- * if ($upass == "") {
-  Redirect("https://" . $servername . $serverroot);
-}
-$redirect_page = $_SESSION["last_page"];
-*****/
-
 $sql = "SELECT uid FROM user WHERE username = '" . $uname . "' AND password = '" . $upass . "'";
-//echo $sql;
 $result = $conn->query($sql);
-if ($result->num_rows < 1) {
-  echo "login failure";
-  // Redirect to login error page
+
+  // Rediect to correct page
   
-  //***** Redirect("login_failure.php");
+  // <!-- Display Results -->
+if($conn->connect_error) {
+  echo "{\"error\":\"could not connect to database\"}";
+}
+else if($result->num_rows < 1) {
+  $result_str = "{\"status\":\"failure\",
+                  \"username\":\"null\",
+                  \"uid\":\"null\"
+                }";
 }
 else {
-  // Login successfull, update SESSION variables and go back to last page
-  echo "login success";
   $_SESSION["logged_in"] = true;
   $_SESSION["username"] = $uname;
   $row = $result->fetch_assoc();
   $_SESSION["uid"] = $row["uid"];
-  // Rediect to correct page
-  
-  //***** Redirect("http://" . $servername . $serverroot . $redirect_page);
-}?>
+
+  $result_str = "{\"status\":\"success\",
+                  \"username\":".$uname.",
+                  \"uid\":".$row["uid"]."
+                }";
+}
+echo $result_str;
+?>

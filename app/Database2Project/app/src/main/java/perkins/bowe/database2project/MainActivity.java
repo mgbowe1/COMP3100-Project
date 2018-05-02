@@ -29,16 +29,9 @@ public class MainActivity extends AppCompatActivity {
             backgroundWorker.execute(type, username, password);
     }
 
-    /*public void OnContinue(View view) {
-            String type = "continue";
-
-            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-            backgroundWorker.execute(type);
-    }*/
-
     private void configureContinueButton() {
-        Button continueButton = (Button) findViewById(R.id.btnContinue);
-        continueButton.setOnClickListener(new View.OnClickListener() {
+        Button searchButton = findViewById(R.id.btnSearch);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, NoLoginQueries.class));

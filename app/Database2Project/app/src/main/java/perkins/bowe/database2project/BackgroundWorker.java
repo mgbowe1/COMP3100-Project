@@ -2,8 +2,12 @@ package perkins.bowe.database2project;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,7 +22,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class BackgroundWorker extends AsyncTask<String,Void,String> {
-    private static final String TAG = "MyActivity";
+
     Context context;
     AlertDialog alertDialog;
     BackgroundWorker(Context ctx){
@@ -28,10 +32,9 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... params) {
         String type = params[0];
-        String base_url = "http://10.0.2.2/comp3100/";
-        String login_url = base_url + "loginj.php";
-        String usersearch_url = base_url + "get_user_feed_json.php";
-        String keywordsearch_url = base_url + "keyword_search_json.php";
+        String login_url = "http://10.0.2.2/login_j.php";
+        String usersearch_url = "http://10.0.2.2/get_user_feed_json.php";
+        String keywordsearch_url = "http://10.0.2.2/keyword_search_json.php";
         if(type.equals("login")) {
             try {
                 String username = params[1];
@@ -63,6 +66,10 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+
+                Intent intent = new Intent(context, LoginQueries.class);
+                intent.putExtra("json", result);
+                context.startActivity(intent);
 
                 return result;
 
@@ -98,9 +105,14 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 while ((line = bufferedReader.readLine()) != null) {
                     result += line;
                 }
+
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
+
+                Intent intent = new Intent(context, UserFeed.class);
+                intent.putExtra("json", result);
+                context.startActivity(intent);
 
                 return result;
             } catch (MalformedURLException e) {
@@ -139,6 +151,10 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 inputStream.close();
                 httpURLConnection.disconnect();
 
+                Intent intent = new Intent(context, KeywordSearch.class);
+                intent.putExtra("json", result);
+                context.startActivity(intent);
+
                 return result;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -157,8 +173,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPostExecute(String result) {
-        alertDialog.setMessage(result);
-        alertDialog.show();
+        //alertDialog.setMessage(result);
+        //alertDialog.show();
     }
 
     @Override
