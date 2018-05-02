@@ -1,6 +1,4 @@
-<?php session_start(); ?>
-<!DOCTYPE html>
-<?php
+<?php session_start(); 
 //<!-- 3) Count the number of posts that contains the keyword “flu”, display the location of the users who have made the posts as well (use “GROUP BY location”). - Grouped by location, Sorted by number of posts -->
 // include("db_header.php") is just an easy way to allow local settings
 // configuration quickly by changing 1 file to update the whole application
