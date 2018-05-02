@@ -11,10 +11,15 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class LoginQueries extends AppCompatActivity {
     TextView LoginStatusT;
     EditText CreatePostEt, SearchTypeEt;
     Button ReturnBtn, CreatePostBtn, KeywordSearchBtn, UserSearchBtn;
+    int uid = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,6 @@ public class LoginQueries extends AppCompatActivity {
         if (b != null) {
             String test = b.getString("json");
             String status = "", username = "";
-            int uid = 0;
             JSONObject c = null;
 
             try {
@@ -76,6 +80,14 @@ public class LoginQueries extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void OnCreatePost(View view) {
+        String postBody = CreatePostEt.getText().toString();
+        String type = "createpost";
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type, Integer.toString(uid), postBody);
     }
 
     public void OnKeywordSearch(View view) {

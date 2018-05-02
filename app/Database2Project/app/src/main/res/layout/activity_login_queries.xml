@@ -6,43 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginQueries">
 
-    <Button
-        android:id="@+id/btnUserSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:onClick="OnUserSearch"
-        android:text="User"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnKeywordSearch"
-        app:layout_constraintTop_toBottomOf="@+id/etSearchType" />
-
-    <Button
-        android:id="@+id/btnKeywordSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:onClick="OnKeywordSearch"
-        android:text="Keyword"
-        app:layout_constraintEnd_toStartOf="@+id/btnUserSearch"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/etSearchType" />
-
-    <EditText
-        android:id="@+id/etSearchType"
-        android:layout_width="347dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="Search"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCreatePost" />
-
     <TextView
         android:id="@+id/tStatus"
         android:layout_width="wrap_content"
@@ -84,11 +47,49 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
+        android:onClick="OnCreatePost"
         android:text="Post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/etCreatePost"
         app:layout_constraintTop_toBottomOf="@+id/tStatus" />
+
+    <Button
+        android:id="@+id/btnUserSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:onClick="OnUserSearch"
+        android:text="User"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnKeywordSearch"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchType" />
+
+    <Button
+        android:id="@+id/btnKeywordSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:onClick="OnKeywordSearch"
+        android:text="Keyword"
+        app:layout_constraintEnd_toStartOf="@+id/btnUserSearch"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchType" />
+
+    <EditText
+        android:id="@+id/etSearchType"
+        android:layout_width="347dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:hint="Search"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCreatePost" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"

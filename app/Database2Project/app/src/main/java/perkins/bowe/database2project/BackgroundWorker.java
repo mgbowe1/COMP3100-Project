@@ -18,8 +18,13 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
@@ -35,6 +40,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
         String login_url = "http://10.0.2.2/login_j.php";
         String usersearch_url = "http://10.0.2.2/get_user_feed_json.php";
         String keywordsearch_url = "http://10.0.2.2/keyword_search_json.php";
+        String createpost_url = "http://10.0.2.2/post_twit_j.php";
         if(type.equals("login")) {
             try {
                 String username = params[1];
@@ -59,7 +65,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String result = "";
                 String line;
-
                 while((line = bufferedReader.readLine()) != null) {
                     result += line;
                 }
@@ -101,7 +106,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String result = "";
                 String line;
-
                 while ((line = bufferedReader.readLine()) != null) {
                     result += line;
                 }
@@ -143,7 +147,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String result = "";
                 String line;
-
                 while ((line = bufferedReader.readLine()) != null) {
                     result += line;
                 }
@@ -157,6 +160,47 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
                 return result;
             } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (type.equals("createpost")) {
+            try {
+                String uid = params[1];
+                String body = params[2];
+                URL url = new URL(createpost_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                //alertDialog.setMessage(uid + " " + body);
+                //alertDialog.show();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("content", "UTF-8")+"="+URLEncoder.encode(body, "UTF-8")+"&"
+                        +URLEncoder.encode("uid", "UTF-8")+"="+URLEncoder.encode(uid, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                /*InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();*/
+                httpURLConnection.disconnect();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
