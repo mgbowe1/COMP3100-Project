@@ -33,18 +33,12 @@
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
         android:layout_marginLeft="148dp"
         android:layout_marginStart="148dp"
-=======
         android:layout_marginBottom="161dp"
-        android:layout_marginLeft="147dp"
-        android:layout_marginStart="147dp"
         android:layout_marginTop="51dp"
         android:text="@string/Login"
->>>>>>> 22cbfa2c514394c3d0d6c287b8f5a99b331c08f6
         android:onClick="OnLogin"
-        android:text="Login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPassword"
         tools:text="Login" />
