@@ -29,7 +29,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         String base_url = "http://10.0.2.2/comp3100/";
-        String login_url = base_url + "login_j.php";
+        String login_url = base_url + "loginj.php";
         String usersearch_url = base_url + "get_user_feed_json.php";
         String keywordsearch_url = base_url + "keyword_search_json.php";
         if(type.equals("login")) {
