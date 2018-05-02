@@ -24,11 +24,12 @@ $result = $conn->query($sql);
 if ($result->num_rows < 1) {
   // Redirect to login error page
   //Redirect("login_failure.php");
-  echo "login failure";
+  echo "{\"error\":\"invalid username/password\"}";
 }
 else {
-  // Login successfull, update SESSION variables and go back to last page
-  echo "login success";
+  // Login successfull, return credentials via json
+  $row = $result->fetch_assoc();
+  echo "{\"username\":\"" . $uname . "\", \"uid\": " . $row["uid"] ."}";
   /*$_SESSION["logged_in"] = true;
   $_SESSION["username"] = $uname;
   $row = $result->fetch_assoc();
