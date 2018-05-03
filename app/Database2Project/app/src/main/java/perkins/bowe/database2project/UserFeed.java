@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,7 +19,6 @@ public class UserFeed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userfeed);
         UserNameT = findViewById(R.id.tBody);
-        String TAG = "MyActivity";
 
         configureReturnButton();
 
@@ -27,25 +27,25 @@ public class UserFeed extends AppCompatActivity {
 
         if (b != null) {
             String test = b.getString("json");
-            String test2 = "";
-            String tid = "", body = "", time = "", uid = "", name = "", comments = "";
-            //String[] names;
-            //Log.i(TAG, test);
-
-            JSONObject c = null, cr = null;
+            String body = "", time = "", name = "";
+            int tid = 0, uid = 0;
+            JSONObject c = null, postObject = null;
+            JSONArray postArray = null;
             try {
                 c = new JSONObject(test);
-                cr = c.getJSONObject("result");
-                /*if ( cr.length() == 1) {
-                    name = cr.getString("result");
-                }*/
-                //JSONArray jsonArray = c.getJSONArray("result");
-                //cr = jsonArray.getJSONObject(0);
-                //name = cr.getString("name");
+                postArray = c.getJSONArray("result");
+                for (int i = 0; i < postArray.length(); i++) {
+                    postObject = postArray.getJSONObject(i);
+                    tid = postObject.getInt("tid");
+                    body = postObject.getString("body");
+                    time = postObject.getString("time");
+                    uid = postObject.getInt("uid");
+                    name = postObject.getString("name");
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
+            String tempString = "tid: " + Integer.toString(tid) + body + time + "uid: " + Integer.toString(uid) + name;
             UserNameT.setText(test); // SET THE TEXT TO THE WHOLE JSON
         }
     }

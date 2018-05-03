@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,18 +25,24 @@ public class KeywordSearch extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle b = intent.getExtras();
         if (b != null) {
-            String test = b.getString("json"), test2 = "";
-            JSONObject c, cr = null;
+            String test = b.getString("json");
+            int count = 0;
+            String location = "";
+            JSONObject c = null, postObject = null;
+            JSONArray locationArray = null;
             try {
                 c = new JSONObject(test);
-                //c.length();
-                //cr = c.getJSONObject("result");
-                //test2 = cr.getString("location");
+                locationArray = c.getJSONArray("result");
+                for (int i = 0; i < locationArray.length(); i++) {
+                    postObject = locationArray.getJSONObject(i);
+                    count = postObject.getInt("count");
+                    location = postObject.getString("location");
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            UserNameT.setText(test); // SET THE TEXT TO THE WHOLE JSON
+            String tempString = count + location;
+            UserNameT.setText(test);
         }
     }
 
