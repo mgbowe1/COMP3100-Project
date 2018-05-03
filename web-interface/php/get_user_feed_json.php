@@ -34,7 +34,7 @@ else if($result->num_rows == 0) {
 else {
   $result_str = "{\"result\":[";
   $tot_num_rows = $result->num_rows;
-  for($i = 0; $i < $tot_num_rows; $i++) {
+  for($i = 0; $i < $tot_num_rows; $i = $i+1) {
     $row = $result->fetch_assoc();
     $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
     $result2 = $conn->query($sql2);
@@ -43,15 +43,15 @@ else {
     }
     $result_str = $result_str . "{\"tid\":" . $row["tid"]
                              . ", \"body\":\"" . $row["body"]
-                             . "\", \"time\":\"" . $row["post_time"] 
-                             . "\", \"uid\":" . $row["uid"] 
-                             . ", \"name\":\"" . $tu_name 
+                             . "\", \"time\":\"" . $row["post_time"]
+                             . "\", \"uid\":" . $row["uid"]
+                             . ", \"name\":\"" . $tu_name
                              . "\", \"comments\":[";
     if($result2->num_rows >= 1) {
       $num_rows2 = $result2->num_rows;
-      for($i = 0; $i < $num_rows2; $i++) {
+      for($j = 0; $j < $num_rows2; $j=$j+1) {
         $row2 = $result2->fetch_assoc();
-        if($i > 0) {
+        if($j > 0) {
           $result_str = $result_str . ", ";
         }
         $result_str = $result_str . "{\"name\":\"" . $row2["name"]  .

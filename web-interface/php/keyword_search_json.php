@@ -28,15 +28,15 @@ else if($result->num_rows < 1) {
 }
 else {
 	$i = 0;
-	$result_str = "\"result\":[";
+	$result_str = "{\"result\":[";
 	while($row = $result->fetch_assoc()) {
 		if ($i > 0) {
 			$result_str = $result_str . ",";
 		}
-		$result_str = $result_str . "{\"count\":" . $row["num_posts"] . ", \"location\":\"" . $row["location"] . "}";
+		$result_str = $result_str . "{\"count\":" . $row["num_posts"] . ", \"location\":\"" . $row["location"] . "\"}";
 		$i = $i + 1;
 }
-$result_str = $result_str . "]";
+$result_str = $result_str . "]}";
 echo $result_str;
 }
 ?>
