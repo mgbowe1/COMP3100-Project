@@ -5,7 +5,7 @@ include("db_header.php");
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$content = $_POST["content"];
+$content = mysqli_real_escape_string($conn, $_POST["content"]);
 $uid = $_POST["uid"];
 $tid = $_POST["tid"];
 
