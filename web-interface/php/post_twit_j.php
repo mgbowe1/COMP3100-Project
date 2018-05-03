@@ -5,7 +5,7 @@ include("db_header.php");
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-$content = $_POST["content"];
+$content = mysqli_real_escape_string($conn, $_POST["content"]);
 $uid = $_POST["uid"];
 
 $sql = "INSERT INTO twitts (tid, uid, body, post_time) VALUES (null, " . $uid . ", '" . $content . "', NOW())";
