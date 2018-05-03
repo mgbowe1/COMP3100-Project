@@ -27,11 +27,16 @@ else if($result->num_rows < 1) {
 	echo "{\"result\":\"" . $keyword . " is not in any posts\"}";
 }
 else {
-	$result_str = "{\"result\":[";
+	$i = 0;
+	$result_str = "\"result\":[";
 	while($row = $result->fetch_assoc()) {
-		$result_str = $result_str . "{\"count\":" . $row["num_posts"] . ", \"location\":\"" . $row["location"] . "]}}";
-	//echo "<div class=\"aggregation row\"><div class=\"col-sm\">" . $row["location"] . "</div> <div class=\"col-sm\"> " . $row["num_posts"] . "</div></div>";
+		if ($i > 0) {
+			$result_str = $result_str . ",";
+		}
+		$result_str = $result_str . "{\"count\":" . $row["num_posts"] . ", \"location\":\"" . $row["location"] . "}";
+		$i = $i + 1;
 }
-	echo $result_str;
+$result_str = $result_str . "]";
+echo $result_str;
 }
 ?>

@@ -38,10 +38,15 @@ else {
     $row = $result->fetch_assoc();
     $sql2 = "SELECT user.username AS name, comment.body AS body, comment.comment_time AS time, user.uid AS uid, comment.cid AS cid FROM comment, user WHERE user.uid = comment.uid AND comment.tid = " . $row["tid"] . " ORDER BY comment.comment_time DESC";
     $result2 = $conn->query($sql2);
-    if($i < 0) {
-      $result_str += ", ";
+    if($i > 0) {
+      $result_str = $result_str . ", ";
     }
-    $result_str = $result_str . "{\"tid\":" . $row["tid"] . ", \"body\":\"" . $row["body"] . "\", \"time\":\"" . $row["post_time"] . "\", \"uid\":" . $row["uid"] . ", \"name\":\"" . $tu_name . "\", \"comments\":[";
+    $result_str = $result_str . "{\"tid\":" . $row["tid"]
+                             . ", \"body\":\"" . $row["body"]
+                             . "\", \"time\":\"" . $row["post_time"] 
+                             . "\", \"uid\":" . $row["uid"] 
+                             . ", \"name\":\"" . $tu_name 
+                             . "\", \"comments\":[";
     if($result2->num_rows >= 1) {
       $num_rows2 = $result2->num_rows;
       for($i = 0; $i < $num_rows2; $i++) {
@@ -55,10 +60,10 @@ else {
           "\", \"uid\":" . $row2["uid"] .
           ", \"cid\":" . $row2["cid"] . "}";
       }
-      $result_str = $result_str . "]";
     }
     $result_str = $result_str . "]}";
   }
+  $result_str = $result_str . "]}";
   echo $result_str;
 }
 ?>
