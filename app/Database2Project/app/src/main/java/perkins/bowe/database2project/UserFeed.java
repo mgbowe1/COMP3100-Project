@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class UserFeed extends AppCompatActivity {
     TextView UserNameT;
 
@@ -34,6 +36,7 @@ public class UserFeed extends AppCompatActivity {
             try {
                 c = new JSONObject(test);
                 postArray = c.getJSONArray("result");
+                ArrayList<Post> posts = new ArrayList<>();
                 for (int i = 0; i < postArray.length(); i++) {
                     postObject = postArray.getJSONObject(i);
                     tid = postObject.getInt("tid");
@@ -41,6 +44,7 @@ public class UserFeed extends AppCompatActivity {
                     time = postObject.getString("time");
                     uid = postObject.getInt("uid");
                     name = postObject.getString("name");
+                    posts.add(new Post(tid, uid, body, time, name));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -1,9 +1,16 @@
+package perkins.bowe.database2project;
+
+import java.util.List;
+
+import perkins.bowe.database2project.Comment;
+
 public class Post {
     private Integer tid;
     private Integer uid;
     private String body;
     private String time;
     private String name;
+    public List<Comment> comments;
 
     public Post(Integer tid, Integer uid, String body, String time, String name) {
         this.tid = tid;

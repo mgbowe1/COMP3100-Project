@@ -1,3 +1,5 @@
+package perkins.bowe.database2project;
+
 public class Comment {
     private Integer cid;
     private Integer tid;
@@ -5,6 +7,15 @@ public class Comment {
     private String name;
     private String body;
     private String time;
+
+    public Comment(Integer cid, Integer tid, Integer uid, String name, String body, String time) {
+        this.cid = cid;
+        this.tid = tid;
+        this.uid = uid;
+        this.name = name;
+        this.body = body;
+        this.time = time;
+    }
 
     public void setTime(String time) {
         this.time = time;
