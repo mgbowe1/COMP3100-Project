@@ -1,10 +1,13 @@
 package perkins.bowe.database2project;
 
+import android.os.Parcel;
+
+import java.io.Serializable;
 import java.util.List;
 
 import perkins.bowe.database2project.Comment;
 
-public class Post {
+public class Post implements Serializable{
     private Integer tid;
     private Integer uid;
     private String body;

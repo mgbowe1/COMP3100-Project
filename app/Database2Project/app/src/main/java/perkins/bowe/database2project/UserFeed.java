@@ -3,6 +3,8 @@ package perkins.bowe.database2project;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,12 +17,14 @@ import java.util.ArrayList;
 
 public class UserFeed extends AppCompatActivity {
     TextView UserNameT;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mRVAdapter;
+    private RecyclerView.LayoutManager mRVLayoutMan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userfeed);
-        UserNameT = findViewById(R.id.tBody);
 
         configureReturnButton();
 
@@ -36,7 +40,7 @@ public class UserFeed extends AppCompatActivity {
             try {
                 c = new JSONObject(test);
                 postArray = c.getJSONArray("result");
-                ArrayList<Post> posts = new ArrayList<>();
+                ArrayList<Post> posts = new ArrayList<Post>();
                 for (int i = 0; i < postArray.length(); i++) {
                     postObject = postArray.getJSONObject(i);
                     tid = postObject.getInt("tid");
@@ -46,11 +50,26 @@ public class UserFeed extends AppCompatActivity {
                     name = postObject.getString("name");
                     posts.add(new Post(tid, uid, body, time, name));
                 }
+                //Instantiate RecyclerView
+                mRecyclerView = (RecyclerView) findViewById(R.id.UserFeedList);
+
+                // Set Layout Manager
+                mRVLayoutMan = new LinearLayoutManager(this);
+                mRecyclerView.setLayoutManager(mRVLayoutMan);
+
+                // Set Adapter
+                mRVAdapter = new MyPostRecyclerViewAdapter(posts, new PostFragment.OnListFragmentInteractionListener() {
+                    @Override
+                    public void onListFragmentInteraction(Post post) {
+
+                    }
+                });
+                mRecyclerView.setAdapter(mRVAdapter);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            String tempString = "tid: " + Integer.toString(tid) + body + time + "uid: " + Integer.toString(uid) + name;
-            UserNameT.setText(test); // SET THE TEXT TO THE WHOLE JSON
+            // String tempString = "tid: " + Integer.toString(tid) + body + time + "uid: " + Integer.toString(uid) + name;
+            // UserNameT.setText(test); // SET THE TEXT TO THE WHOLE JSON
         }
     }
 

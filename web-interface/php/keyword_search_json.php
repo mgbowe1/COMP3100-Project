@@ -24,7 +24,7 @@ if($conn_failure) {
 	echo "{\"error\":\"could not connect to database\"}";
 }
 else if($result->num_rows < 1) {
-	echo "{\"result\":\"" . $keyword . " is not in any posts\"}";
+	echo "{\"result\":[{\"count\":0, \"location\":\"" . $keyword . " is not in any posts\"}]}";
 }
 else {
 	$i = 0;
