@@ -29,11 +29,12 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     @Override
     protected String doInBackground(String... params) {
         String type = params[0];
-        String login_url = "http://10.0.2.2/login_j.php";
-        String usersearch_url = "http://10.0.2.2/get_user_feed_json.php";
-        String keywordsearch_url = "http://10.0.2.2/keyword_search_json.php";
-        String createpost_url = "http://10.0.2.2/post_twit_j.php";
-        String createcomment_url = "http://10.0.2.2/post_comment_j.php";
+        String base_url = "http://10.0.2.2/comp3100/";
+        String login_url = base_url + "login_j.php";
+        String usersearch_url = base_url + "get_user_feed_json.php";
+        String keywordsearch_url = base_url + "keyword_search_json.php";
+        String createpost_url = base_url + "post_twit_j.php";
+        String createcomment_url = base_url + "post_comment_j.php";
         if(type.equals("login")) {
             try {
                 String username = params[1];
