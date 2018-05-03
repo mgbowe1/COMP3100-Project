@@ -11,14 +11,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class LoginQueries extends AppCompatActivity {
     TextView LoginStatusT;
-    EditText CreatePostEt, SearchTypeEt;
-    Button ReturnBtn, CreatePostBtn, KeywordSearchBtn, UserSearchBtn;
+    EditText CreatePostEt, SearchTypeEt, TwitIDEt;
+    Button ReturnBtn, CreatePostBtn, CreateCommentBtn, KeywordSearchBtn, UserSearchBtn;
     int uid = 0;
 
     @Override
@@ -31,6 +27,8 @@ public class LoginQueries extends AppCompatActivity {
         KeywordSearchBtn = findViewById(R.id.btnKeywordSearch);
         UserSearchBtn = findViewById(R.id.btnUserSearch);
         SearchTypeEt = findViewById(R.id.etSearchType);
+        TwitIDEt = findViewById(R.id.etTwitID);
+        CreateCommentBtn = findViewById(R.id.btnCreateComment);
 
         configureLogoutButton();
 
@@ -58,6 +56,8 @@ public class LoginQueries extends AppCompatActivity {
                 UserSearchBtn.setVisibility(View.INVISIBLE);
                 KeywordSearchBtn.setVisibility(View.INVISIBLE);
                 SearchTypeEt.setVisibility(View.INVISIBLE);
+                CreateCommentBtn.setVisibility(View.INVISIBLE);
+                TwitIDEt.setVisibility(View.INVISIBLE);
             }
             else if (status.equals("success")) {
                 String loginString = "Welcome, " + username;
@@ -68,6 +68,8 @@ public class LoginQueries extends AppCompatActivity {
                 UserSearchBtn.setVisibility(View.VISIBLE);
                 KeywordSearchBtn.setVisibility(View.VISIBLE);
                 SearchTypeEt.setVisibility(View.VISIBLE);
+                CreateCommentBtn.setVisibility(View.VISIBLE);
+                TwitIDEt.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -88,6 +90,15 @@ public class LoginQueries extends AppCompatActivity {
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         backgroundWorker.execute(type, Integer.toString(uid), postBody);
+    }
+
+    public void OnCreateComment(View view) {
+        String commentBody = CreatePostEt.getText().toString();
+        String type = "createcomment";
+        String parentID = TwitIDEt.getText().toString();
+
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type, Integer.toString(uid), commentBody, parentID);
     }
 
     public void OnKeywordSearch(View view) {

@@ -5,10 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -21,10 +17,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
@@ -41,6 +33,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
         String usersearch_url = "http://10.0.2.2/get_user_feed_json.php";
         String keywordsearch_url = "http://10.0.2.2/keyword_search_json.php";
         String createpost_url = "http://10.0.2.2/post_twit_j.php";
+        String createcomment_url = "http://10.0.2.2/post_comment_j.php";
         if(type.equals("login")) {
             try {
                 String username = params[1];
@@ -172,8 +165,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 URL url = new URL(createpost_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
-                //alertDialog.setMessage(uid + " " + body);
-                //alertDialog.show();
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setDoInput(true);
@@ -187,7 +178,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                 bufferedWriter.close();
                 outputStream.close();
 
-                /*InputStream inputStream = httpURLConnection.getInputStream();
+                InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String result = "";
                 String line;
@@ -195,9 +186,52 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                     result += line;
                 }
                 bufferedReader.close();
-                inputStream.close();*/
+                inputStream.close();
                 httpURLConnection.disconnect();
 
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if (type.equals("createcomment")) {
+            try {
+                String uid = params[1];
+                String body = params[2];
+                String tid = params[3];
+                URL url = new URL(createcomment_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("content", "UTF-8")+"="+URLEncoder.encode(body, "UTF-8")+"&"
+                        +URLEncoder.encode("uid", "UTF-8")+"="+URLEncoder.encode(uid, "UTF-8")+"&"
+                        +URLEncoder.encode("tid", "UTF-8")+"="+URLEncoder.encode(tid, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+
+                return result;
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {
@@ -212,13 +246,16 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     @Override
     protected void onPreExecute() {
         alertDialog = new AlertDialog.Builder(context).create();
-        //alertDialog.setTitle("Login Status");
+        alertDialog.setTitle("Status");
     }
 
     @Override
     protected void onPostExecute(String result) {
-        //alertDialog.setMessage(result);
-        //alertDialog.show();
+        if (result.equals("post successful"))
+        {
+            alertDialog.setMessage(result);
+            alertDialog.show();
+        }
     }
 
     @Override
